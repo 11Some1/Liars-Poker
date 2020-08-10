@@ -15,7 +15,7 @@ public class Bot extends ListenerAdapter {
     private static char prefix = '$'; // Default
 
     public static void main(String[] args) throws Exception {
-        JDA jda = JDABuilder.createDefault("[YOUR BOT TOKEN HERE]").build(); // <-- Put your bot token here
+        // JDA jda = JDABuilder.createDefault("[YOUR BOT TOKEN HERE]").build(); // <-- Put your bot token here
         jda.getPresence().setStatus(OnlineStatus.IDLE);
         jda.getPresence().setActivity(Activity.watching("Liar's Poker!"));
         jda.addEventListener(new Bot());
@@ -297,21 +297,21 @@ public class Bot extends ListenerAdapter {
                     "guessed exists by combining all the cards in play in the round, the challenger (the current " +
                     "player) loses the round; if it doesn't exist, the previous player loses the round.\nWhen a " +
                     "player loses a round, they get another card for all future rounds they're in, which helps...\n...but if you " +
-                    "get to six cards, you're out. ", false);
+                    "get to six cards, you're out.\nLast man standing wins!", false);
             embd.addField("Order of play:", "1) Players are dealt their respective number of cards (two to start) " +
                             "and five cards to the middle.\n2) The starting player and order of play is randomized. " +
-                            "\n3) When guessing, the player either proposes a new hand  with " +
+                            "\n3) When it is their turn, the player either proposes a new hand  with " +
                     "`" + prefix + "taketurn [card 1] [card 2] [card 3] [card 4] [card 5]`" + "or `" + prefix + "challenge`s" +
-                    " the previous player's claim. The new proposed hand must be better in Poker rank than the previous hand " +
+                    " the previous player's claim. When proposing, the new proposed hand must be better in Poker rank than the previous hand " +
                     "(see `" + prefix + "rankinghelp` for information about Poker hand rankings.)\n4) Round play continues until somebody " +
                     "challenges.\n5) When a player challenges, all the cards in play (among all players and the cards in the middle) " +
-                    "are used to see if the last guess can be made from them. If yes, the current player (who challenged) loses the round; " +
-                    "else, the previous player (who got challenged) loses the round. \n6) Whoever lost the round gets another card. " +
-                    "If they get six cards, they are eliminated from the game.\n7) Another round starts with whoever is still alive. " +
-                    "This continues until a single winner is determined.", false);
-            embd.addField("Other fine details...", "-Currently, aces are high only.\n-Currently, straights do not wrap around." +
-                            "\n-Currently, your guess must be exactly 5 cards.\n-Currently, you must specify a suit for each card." +
-                            "\n-Currently, there are no wildcards.\n(Perhaps in the future, these will be features added.)",
+                    "are used to see if the last guess can be made from them. If yes, the current player (the player who challenged) " +
+                    "loses the round; If no, the previous player (the player who got challenged) loses the round. \n6) Whoever lost " +
+                    "the round gets another card. If they get six cards, they are eliminated from the game.\n7) Another round starts " +
+                    "with whoever is still alive. This order of play continues until a single winner is determined.", false);
+            embd.addField("Current limitations:", "-Aces are high only.\n-Straights do not wrap around." +
+                            "\n-Your guess must be exactly 5 cards.\n-You must specify a suit for each card." +
+                            "\n-There are no wildcards.\n(Perhaps in the future, these will be features added.)",
                     false);
             embd.setColor(0x99FF00);
             event.getChannel().sendMessage(embd.build()).queue();
@@ -456,7 +456,7 @@ public class Bot extends ListenerAdapter {
             embd.addField("`" + prefix + "emotepre`", "Brings up the currently programmed addresses of the playing" +
                     "card emotes.\nIf you uploaded the playing card emotes directly to your server and have not updated the bot's code," +
                     " these addresses will differ from those currently in your server.", false);
-            embd.addField("`" + prefix + "setprefix`", "Sets the prefix for this bot." +
+            embd.addField("`" + prefix + "setprefix`", "Sets the prefix for this bot's commands (`$` by default.)" +
                     "\nThe current prefix is: `" + prefix + "`", false);
             embd.addField("`" + prefix + "shutdown`", "Disconnects the bot from the server.", false);
             embd.setColor(0x99FF00);
