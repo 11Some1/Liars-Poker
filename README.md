@@ -2,7 +2,10 @@
 A functional implementation of the card game "Liar's Poker" using a Discord bot to play it in chat.
 
 # Impressions
-[to add]
+![img](https://i.imgur.com/tYfGKiX.jpg)
+![img](https://i.imgur.com/gIFL6Qj.jpg)
+![img](https://i.imgur.com/EEPRwwZ.jpg)
+![img](https://i.imgur.com/HyS6pKo.jpg)
 
 # What is Liar's Poker?
 It's Poker... but you're guessing hands among all players!
