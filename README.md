@@ -55,7 +55,7 @@ Commands requiring the ```Administrator``` permission:
     - (If you changed the names of the emotes while uploading the playing card emotes, that will screw with this command. So, don't change the names if you can help it.)
 - ```$emotepre```: Brings up the currently programmed addresses of the playing card emotes. 
   - If you uploaded the playing card emotes directly to your server and have not updated the bot's code, these ddresses will differ from those currently in your server.
-- ```$setprefix```: Sets the prefix for this bot's commands. (```$``` by default.)
+- ```$setprefix```: Sets the prefix for this bot's commands (```$``` by default.)
 - ```$shutdown```: Disconnects the bot from the server.
 
 # Installation
@@ -87,7 +87,7 @@ The following are the steps to take to set this bot up yourself:
     - Do not change the names of the custom Emojis, or later steps won't work the intended way.
 12) Turn on the bot by running the main method in ```Bot.java```. Enter ```$emotecurrent``` in one of your server's channel(s) to obtain the Discord addresses for each of the 30 custom Emojis.
     - Alteratively, you can add ```\``` in front of the custom Emoji commands to obtain the Emoji Discord address manually.
-      - For example, ```\bA```.
+      - For example, ```\:bA:```.
       - If you change any of the uploaded Emoji names prior to obtaining their Discord address, you will have to obtain it manually this way.
 13) Go to ```Card.java```. In the methods ```rankImg()``` and ```suitImg()```, replace the addresses in the switch block with the appropriate addresses from step 12).
 14) Setup complete! You are now free to open the bot for use.
@@ -119,5 +119,5 @@ Upcoming features/changes (hopefully):
 
 # Credits:
 - The emotes used for the cards come from the [Playing Card Emojis Discord server](https://top.gg/servers/623564336052568065?__cf_chl_jschl_tk__=e17b8191a8c7ebabd298fbfe2ce14fe85c64f98a-1597032695-0-AfY8PVb4ID-Y9xIXT83UkwxQwLK7Qm-cQvYxpppJABZASW-8wc8XIEneE2EaHtTZRmfOAfdb-vC5z75ooZhxPWsT42QyYUiOPXNtZbVoALx8FrWbLuhQf_DohpCnxnfSZemiMsXSmuQi13kqVd8YaQDnvt6l1UbNcwhwCeEIXK8auQl6k4fzsdlTMDByW0qe290lKDQ3TEMv_Nm8kBLbpcKCLk75qTZrYnEovNfa3QprCRq6IcvnMMW5XJYRIBIvNwCC4o1FEaDrDE7ldnG3ukeIW8LQG3nARtrGnwC5ypistlAJiHgTnvo9zVGMWYiq5w): run by Discord user ```@Raffael#7777```. Thanks for the images!
-- This bot would not be possible without [DV8FromTheWorld](https://github.com/DV8FromTheWorld)'s Java Discord API, allowing me to connect my Java code to Discord.
+- This bot would not be possible without [DV8FromTheWorld](https://github.com/DV8FromTheWorld)'s [Java Discord API](https://github.com/DV8FromTheWorld/JDA), allowing me to connect my Java code to Discord.
 - My implementation of comparing Poker hands is a varaition of [Kevin Suffecool](http://suffe.cool/poker/evaluator.html)'s 5-card hand evaluator and [Paul Senzee](http://senzee.blogspot.com/2006/06/some-perfect-hash.html)'s hash optimization.
