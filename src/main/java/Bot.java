@@ -15,7 +15,7 @@ public class Bot extends ListenerAdapter {
     private static char prefix = '$'; // Default
 
     public static void main(String[] args) throws Exception {
-        // JDA jda = JDABuilder.createDefault("[YOUR BOT TOKEN HERE]").build(); // <-- Put your bot token here
+        JDA jda = JDABuilder.createDefault("NzQwNjkyMjg4MTkxMjAxMzIy.Xystcg.I1MWCtYOJgbiECHOQimfMDNmuMc").build(); // <-- Put your bot token here
         jda.getPresence().setStatus(OnlineStatus.IDLE);
         jda.getPresence().setActivity(Activity.watching("Liar's Poker!"));
         jda.addEventListener(new Bot());
@@ -153,7 +153,7 @@ public class Bot extends ListenerAdapter {
                 if(true) { //TODO: if(u.hasPrivateChannel())
                     u.openPrivateChannel().queue((channel) ->
                     {
-                        channel.sendMessage("Your cards are:\n" + Hand.toString(curGame.getPlayer(u).getCards())).queue();
+                        channel.sendMessage("Your cards are:\n" + Card.getEmotes(curGame.getPlayer(u).getCards())).queue();
                     });
                     embd.setTitle("Cards sent!");
                     embd.setDescription("Check your DMs to see your cards.");
@@ -167,7 +167,7 @@ public class Bot extends ListenerAdapter {
             }
             event.getChannel().sendMessage(embd.build()).queue();
         }
-        else if(msg[0].equals(prefix + "taketurn")) {
+        else if(msg[0].equals(prefix + "taketurn") && msg.length >= 2) {
             EmbedBuilder embd = new EmbedBuilder();
             embd.setFooter("Requested by " + event.getMember().getEffectiveName(), event.getMember().getUser().getAvatarUrl());
             if(curGame.getState().equals(Game.GameState.NO_GAME)) {
@@ -191,26 +191,31 @@ public class Bot extends ListenerAdapter {
                 embd.setDescription("It is not your turn.");
                 embd.setColor(0xf45642);
             }
-            else if(msg.length != 6) {
+            else if(msg.length > 6) {
                 embd.setTitle("Failed to take a turn...");
-                embd.setDescription("Your request for a hand does not contain exactly 5 cards.");
+                embd.setDescription("Your request for a hand contains more than 5 cards.");
                 embd.setColor(0xf45642);
             }
             else {
                 try {
-                    String str = (msg[1] + " " + msg[2] + " " + msg[3] + " " + msg[4] + " " + msg[5]);
-                    if(Hand.evaluate(Hand.fromString(str)) >= Hand.evaluate(curGame.getCurrentHand())) {
+                    StringBuilder sb = new StringBuilder();
+                    for(int i = 1; i < msg.length; i++) {
+                        sb.append(msg[i]);
+                        if(i != msg.length - 1) sb.append(" ");
+                    }
+                    Hand h = new Hand(sb.toString());
+                    if(h.compareTo(curGame.getCurrentHand()) <= 0) {
                         embd.setTitle("Failed to take a turn...");
-                        embd.setDescription("Your request for a hand\n" + Hand.toString(Hand.fromString(str)) +
+                        embd.setDescription("Your request for a hand\n" + Card.getEmotes(h.getHand()) +
                                 "\nis not better than the current hand.");
                         embd.setColor(0xf45642);
                     }
                     else {
-                        curGame.takeTurn(Hand.fromString(str));
+                        curGame.takeTurn(h);
                         embd.setTitle(event.getMember().getEffectiveName() + " has taken his/her turn!");
                         embd.setDescription("It is now <@" + curGame.currentPlayer().getUser().getId() + ">'s turn.");
                         embd.appendDescription("\nYou may either propose a better hand,\nor challenge the previous player.");
-                        embd.addField("Current hand to beat:", Hand.toString(curGame.getCurrentHand()), false);
+                        embd.addField("Current hand to beat:", Card.getEmotes(curGame.getCurrentHand().getHand()), false);
                         embd.setColor(0x99FF00);
                     }
                 }
@@ -270,12 +275,13 @@ public class Bot extends ListenerAdapter {
             embd.addField("`" + prefix + "start`", "Begins the game with the players who have joined." , false);
             embd.addField("`" + prefix + "roundinfo`", "Displays info on the current round.", false);
             embd.addField("`" + prefix + "gethand`", "DMs you the cards in your hand.", false);
-            embd.addField("`" + prefix + "taketurn [card 1] [card 2] [card 3] [card 4] [card 5]`",
+            embd.addField("`" + prefix + "taketurn [card 1] [card 2] ... [card 5]`",
                     "Propose a new hand to beat, if it is your turn." +
-                            "\nYour proposed hand must be better than the existing hand to beat." +
-                            "\nList your cards in two character strings, respectively," +
-                            "\nwhere the first character is the rank and the second character is the suit." +
-                            "\nFor example, \"Kc\" means the king of clubs, and \"As\" means the ace of spades." +
+                            "\nYour proposed hand must be better in Poker rank than the existing hand to beat." +
+                            "\nYou may propose a hand containing one to five cards, as long as the proposed hand is better than the current." +
+                            "\nList your cards in two character strings, respectively, " +
+                            "where the first character is the rank and the second character is the suit." +
+                            "\nFor example, \"Kc\" means the king of clubs, and \"A?\" means an ace without the suit specified." +
                             "\nAn example of a valid hand request is:\n`" + prefix + "taketurn Kd 5s Tc Ah Qc`.", false);
             embd.addField("`" + prefix + "challenge`", "Challenge the previous player's claim, if it is your turn.", false);
             embd.addField("`" + prefix + "commands`", "Brings up the list of commands this bot offers.", false);
@@ -300,18 +306,16 @@ public class Bot extends ListenerAdapter {
                     "get to six cards, you're out.\nLast man standing wins!", false);
             embd.addField("Order of play:", "1) Players are dealt their respective number of cards (two to start) " +
                             "and five cards to the middle.\n2) The starting player and order of play is randomized. " +
-                            "\n3) When it is their turn, the player either proposes a new hand  with " +
-                    "`" + prefix + "taketurn [card 1] [card 2] [card 3] [card 4] [card 5]`" + "or `" + prefix + "challenge`s" +
-                    " the previous player's claim. When proposing, the new proposed hand must be better in Poker rank than the previous hand " +
-                    "(see `" + prefix + "rankinghelp` for information about Poker hand rankings.)\n4) Round play continues until somebody " +
-                    "challenges.\n5) When a player challenges, all the cards in play (among all players and the cards in the middle) " +
+                            "\n3) When it is their turn, the player either proposes a new hand better in Poker rank than the previous hand with" +
+                    "\n`" + prefix + "taketurn [card 1] [card 2] ... [card 5]`" + "\nor `" + prefix + "challenge`s" +
+                    " the previous player's claim. (See `" + prefix + "rankinghelp` for information about Poker hand rankings.)" +
+                    "\n4) Round play continues until somebody challenges." +
+                    "\n5) When a player challenges, all the cards in play (among all players and the cards in the middle) " +
                     "are used to see if the last guess can be made from them. If yes, the current player (the player who challenged) " +
                     "loses the round; If no, the previous player (the player who got challenged) loses the round. \n6) Whoever lost " +
                     "the round gets another card. If they get six cards, they are eliminated from the game.\n7) Another round starts " +
                     "with whoever is still alive. This order of play continues until a single winner is determined.", false);
-            embd.addField("Current limitations:", "-Aces are high only.\n-Straights do not wrap around." +
-                            "\n-Your guess must be exactly 5 cards.\n-You must specify a suit for each card." +
-                            "\n-There are no wildcards.\n(Perhaps in the future, these will be features added.)",
+            embd.addField("Current limitations:", " -There are no wildcards.\n(Perhaps in the future, these will be features added.)",
                     false);
             embd.setColor(0x99FF00);
             event.getChannel().sendMessage(embd.build()).queue();
@@ -320,36 +324,48 @@ public class Bot extends ListenerAdapter {
             EmbedBuilder embd = new EmbedBuilder();
             embd.setFooter("Requested by " + event.getMember().getEffectiveName(), event.getMember().getUser().getAvatarUrl());
             embd.setTitle("Poker Hand Rankings:");
-            final Card[] STRAIGHT_FLUSH = {Card.fromString("5h"), Card.fromString("6h"), Card.fromString("7h"),
-                    Card.fromString("8h"), Card.fromString("9h")},
-            FOUR_KIND = {Card.fromString("3c"), Card.fromString("3d"), Card.fromString("3h"), Card.fromString("3s"), Card.fromString("4s")},
-            FULL_HOUSE = {Card.fromString("Jd"), Card.fromString("Jh"), Card.fromString("Js"), Card.fromString("Ac"), Card.fromString("Ah")},
-            FLUSH = {Card.fromString("5s"), Card.fromString("7s"), Card.fromString("Ts"), Card.fromString("Qs"), Card.fromString("Ks")},
-            STRAIGHT = {Card.fromString("6h"), Card.fromString("7d"), Card.fromString("8c"), Card.fromString("9c"), Card.fromString("Ts")},
-            THREE_KIND = {Card.fromString("5c"), Card.fromString("5d"), Card.fromString("5s"), Card.fromString("8s"), Card.fromString("Jd")},
-            TWO_PAIR = {Card.fromString("4c"), Card.fromString("4h"), Card.fromString("9d"), Card.fromString("9s"), Card.fromString("As")},
-            ONE_PAIR = {Card.fromString("Td"), Card.fromString("Th"), Card.fromString("Jh"), Card.fromString("Kc"), Card.fromString("Ac")},
-            HIGH_CARD = {Card.fromString("4h"), Card.fromString("5s"), Card.fromString("8s"), Card.fromString("Td"), Card.fromString("Kd")};
-            embd.setDescription("Suit rankings:\n" + FOUR_KIND[0].suitImg() + " < " + FOUR_KIND[1].suitImg() +
-                    " < " + FOUR_KIND[2].suitImg() + " < " + FOUR_KIND[3].suitImg() + "\n\nHands from highest to lowest rank:");
-            embd.addField("Straight flush", Hand.toString(STRAIGHT_FLUSH) +
+
+            final Hand STRAIGHT_FLUSH = new Hand("5h 6h 7h 8h 9h"), FOUR_KIND = new Hand("3c 3d 3h 3s 4s"),
+            FULL_HOUSE = new Hand("Jd Jh Js Ac Ah"), FLUSH = new Hand("5s 7s Ts Qs Ks"),
+            STRAIGHT = new Hand("6h 7d 8c 9c Ts"), THREE_KIND = new Hand("5c 5d 5s 8s Jd"),
+            TWO_PAIR = new Hand("4c 4h 9d 9s As"), ONE_PAIR = new Hand("Td Th Jh Kc Ac"),
+            HIGH_CARD = new Hand("4h 5s 8s Td Kd"), EX_1 = new Hand("3? 3d 3h 5s 7s"), EX_2 = new Hand("3d 3h 3s 5s 7s");
+
+            embd.addField("Straight flush", Card.getEmotes(STRAIGHT_FLUSH.getHand()) +
                     "\nFive cards of sequential rank of the same suit.", false);
-            embd.addField("Four of a kind", Hand.toString(FOUR_KIND) +
-                    "\nFour cards of one rank, one card of another rank.", false);
-            embd.addField("Full house", Hand.toString(FULL_HOUSE) +
+            embd.addField("Four of a kind", Card.getEmotes(FOUR_KIND.getHand()) +
+                    "\nFour cards of one rank, one card of another rank (the kicker.)", false);
+            embd.addField("Full house", Card.getEmotes(FULL_HOUSE.getHand()) +
                     "\nThree cards of one rank, and two cards of another rank.", false);
-            embd.addField("Flush", Hand.toString(FLUSH) +
+            embd.addField("Flush", Card.getEmotes(FLUSH.getHand()) +
                     "\nFive cards of the same suit, not all of sequential rank.", false);
-            embd.addField("Straight", Hand.toString(STRAIGHT) +
+            embd.addField("Straight", Card.getEmotes(STRAIGHT.getHand()) +
                     "\nFive cards of sequential rank, not all of the same suit.", false);
-            embd.addField("Three of a kind", Hand.toString(THREE_KIND) +
-                    "\nThree cards of one rank and two cards of two other ranks.", false);
-            embd.addField("Two pair", Hand.toString(TWO_PAIR) +
-                    "\nTwo cards of one rank, two cards of another rank, one card of a third rank.", false);
-            embd.addField("One pair", Hand.toString(ONE_PAIR) +
-                    "\nTwo cards of one rank, three cards of three other ranks.", false);
-            embd.addField("High card", Hand.toString(HIGH_CARD) +
+            embd.addField("Three of a kind", Card.getEmotes(THREE_KIND.getHand()) +
+                    "\nThree cards of one rank and two cards of two other ranks (two kickers.)", false);
+            embd.addField("Two pair", Card.getEmotes(TWO_PAIR.getHand()) +
+                    "\nTwo cards of one rank, two cards of another rank, one card of a third rank (the kicker.)", false);
+            embd.addField("One pair", Card.getEmotes(ONE_PAIR.getHand()) +
+                    "\nTwo cards of one rank, three cards of three other ranks (three kickers.)", false);
+            embd.addField("High card", Card.getEmotes(HIGH_CARD.getHand()) +
                     "\nCards are all of distinct ranks, are not all sequential in rank, and not all of the same suit.", false);
+            embd.addField("-------------------------------------------------------", "", false);
+            embd.addField("Suit rankings:", ImgAddress.sN.getAddress() + " < " + ImgAddress.sC.getAddress() + " < " +
+                    ImgAddress.sD.getAddress() + " < " + ImgAddress.sH.getAddress() + " < " + ImgAddress.sS.getAddress(), false);
+            embd.addField("If Hands have the same rank:", "Cards in the hands are compared individually from left to right." +
+                    "\nCards are compared on rank first, then suit. " +
+                    "\nIf one card is better than the other, the hand that it belongs to is the better one." +
+                    "\nIf, when comparing at a given index, one hand has a card but the other does not have one at that index," +
+                    " the hand that actually has the card is the better one.", false);
+            embd.addField("Hands without suit specified:",
+                    "A card need not necessarily have its suit specified." +
+                    "\nSimply enter `?` in place of the suit; ie, `6?`" +
+                    "\nCards w/out specified suits counts towards non-flush ranks (which require a specified suit); for example, in" +
+                    "\n" + Card.getEmotes(EX_1.getHand()) + "\n`3?` counts towards completing a three of a kind." +
+                    "\nNon specified suits are lower than those specified;" +
+                    "\nAs such, the above example loses to \n" + Card.getEmotes(EX_2.getHand()) + "." +
+                    "\nWhen checking if cards are present, one w/out a specified suit counts for a card w/ the" +
+                    " same rank and a specified suit.\nFor example, `4?` counts for `4s`.", false);
             embd.setColor(0x99FF00);
             event.getChannel().sendMessage(embd.build()).queue();
         }
@@ -389,6 +405,7 @@ public class Bot extends ListenerAdapter {
                                 case 'J':
                                 case 'Q':
                                 case 'K':
+                                case 'N':
                                     embd.appendDescription("\n<:" + e.getName() + ":" + e.getId() + ">");
                                     embd.appendDescription("= `<:" + e.getName() + ":" + e.getId() + ">`");
                                     break;
@@ -404,21 +421,10 @@ public class Bot extends ListenerAdapter {
         else if(msg[0].equals(prefix + "emotepre") && event.getMember().hasPermission(Permission.ADMINISTRATOR)) {
             EmbedBuilder embd = new EmbedBuilder();
             embd.setFooter("Requested by " + event.getMember().getEffectiveName(), event.getMember().getUser().getAvatarUrl());
-            embd.setDescription("**Currently coded card ranks:**");
-            Deck tp = new Deck();
-            for(int i = 1; i <= 25; i++) {
-                Card c = tp.draw();
-                embd.appendDescription("\n" + c.rankImg() + "= `" + c.rankImg() + "`");
+            embd.setDescription("**Currently coded card ranks and suits:**");
+            for(ImgAddress address : ImgAddress.values()) {
+                embd.appendDescription("\n" + address.getAddress() + "= `" + address.getAddress() + "`");
             }
-            Card c = tp.draw();
-            embd.appendDescription("\n" + c.rankImg() + "= `" + c.rankImg() + "`" + "\n\n**Currently coded card suits:**");
-            embd.appendDescription("\n" + c.suitImg() + "= `" + c.suitImg() + "`");
-            c = tp.draw();
-            embd.appendDescription("\n" + c.suitImg() + "= `" + c.suitImg() + "`");
-            c = tp.draw();
-            embd.appendDescription("\n" + c.suitImg() + "= `" + c.suitImg() + "`");
-            c = Card.fromString("Ac");
-            embd.appendDescription("\n" + c.suitImg() + "= `" + c.suitImg() + "`");
             embd.setColor(0x99FF00);
             event.getChannel().sendMessage(embd.build()).queue();
         }

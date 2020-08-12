@@ -15,7 +15,7 @@ public class Game {
     private Deck deck;
     private ArrayList<Card> poolCards;
     private ArrayList<Card> sharedCards;
-    private Card[] currentHand;
+    private Hand currentHand;
     private Player currentPlayer;
     private Player prevPlayer;
 
@@ -47,8 +47,8 @@ public class Game {
             sb.append("\n");
         }
         embd.addField("Players still alive in the round:", sb.toString(), false);
-        embd.addField("Cards in the middle:", Hand.toString(sharedCards.toArray(new Card[sharedCards.size()])), false);
-        embd.addField("Current hand to beat:", Hand.toString(currentHand), false);
+        embd.addField("Cards in the middle:", Card.getEmotes(sharedCards.toArray(new Card[sharedCards.size()])), false);
+        embd.addField("Current hand to beat:", Card.getEmotes(currentHand.getHand()), false);
         sb = new StringBuilder();
         for(int i = 1; i <= inRound.size(); i++) {
             sb.append(i + ": " + inRound.get(i-1).getUser().getName());
@@ -151,7 +151,7 @@ public class Game {
      * Returns the current hand to beat.
      * @return The current hand to beat.
      */
-    public Card[] getCurrentHand() { return currentHand; }
+    public Hand getCurrentHand() { return currentHand; }
 
     /**
      * Initiates a new game of Liar's Poker.
@@ -166,7 +166,6 @@ public class Game {
             deck.shuffle();
             poolCards = new ArrayList<Card>();
             sharedCards = new ArrayList<Card>();
-            currentHand = new Card[5];
             addPlayer(user);
             state = GameState.WAITING;
             return true;
@@ -206,8 +205,8 @@ public class Game {
                 Card c = deck.draw();
                 sharedCards.add(c);
                 poolCards.add(c);
-                currentHand[i] = c;
             }
+            currentHand = new Hand(sharedCards.toArray(new Card[sharedCards.size()]));
             turnIdx = (int) (Math.random() * inRound.size());
             Collections.shuffle(inRound);
             currentPlayer = inRound.get(turnIdx);
@@ -221,9 +220,9 @@ public class Game {
      * (Note that this method does not verify whether or not the requested array of Cards is suitable to
      * be the next currentHand, ie, the method does not check if nextHand is better in rank than currentHand.
      * As it is currently, such a condition should be checked before usage of this method.)
-     * @param nextHand The array of Cards to become the next currentHand.
+     * @param nextHand The Hand to become the next currentHand.
      */
-    public void takeTurn(Card[] nextHand) {
+    public void takeTurn(Hand nextHand) {
         if(state.equals(GameState.IN_PROGRESS)) {
             currentHand = nextHand;
             prevPlayer = currentPlayer;
@@ -240,16 +239,16 @@ public class Game {
         EmbedBuilder embd = new EmbedBuilder();
         embd.setTitle("End of the round!");
         embd.setColor(0x99FF00);
-        embd.addField("The cards in play:", Hand.toString(poolCards.toArray(new Card[poolCards.size()])), false);
+        embd.addField("The cards in play:", Card.getEmotes(poolCards.toArray(new Card[poolCards.size()])), false);
         if(gameContains()) {
             currentPlayer.incNumCards();
-            embd.addField("", "The current hand\n" + Hand.toString(currentHand) + "\ncould be found in play.", false);
+            embd.addField("", "The current hand\n" + Card.getEmotes(currentHand.getHand()) + "\ncould be found in play.", false);
             embd.addField("Results:", "The current player <@" + currentPlayer.getUser().getId() + "> lost this round " +
                             "and has been given an extra card.", false);
         }
         else {
             prevPlayer.incNumCards();
-            embd.addField("", "The current hand\n" + Hand.toString(currentHand) + "\ncould not be found in play.", false);
+            embd.addField("", "The current hand\n" + Card.getEmotes(currentHand.getHand()) + "\ncould not be found in play.", false);
             embd.addField("Results:", "The previous player <@" + prevPlayer.getUser().getId() + "> lost this round " +
                             "and has been given an extra card.", false);
         }
@@ -260,7 +259,7 @@ public class Game {
                 removePlayerRound(inRound.get(i));
             }
         }
-        if(inRound.size() == 1) { //is 0 when testing
+        if(inRound.size() == 0) { //TODO: is 0 when testing
             state = GameState.NO_GAME;
             embd.setTitle("Game over!");
             embd.addField("", "<@" + inRound.get(0).getUser().getId() + "> has won the game!", false);
@@ -277,10 +276,17 @@ public class Game {
      * @return true if the game's current hand can be found among all cards in play; false otherwise.
      */
     public boolean gameContains() {
-        for(Card c : currentHand) {
-            if(!poolCards.contains(c)) {
+        ArrayList<Card> pool = new ArrayList<>();
+        for(Card c : poolCards) {
+            pool.add(c);
+        }
+        Collections.sort(pool, Collections.reverseOrder());
+
+        for(Card c : currentHand.getHand()) {
+            if(!pool.contains(c)) {
                 return false;
             }
+            pool.remove(c);
         }
         return true;
     }
