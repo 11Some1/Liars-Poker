@@ -15,7 +15,7 @@ public class Bot extends ListenerAdapter {
     private static char prefix = '$'; // Default
 
     public static void main(String[] args) throws Exception {
-        JDA jda = JDABuilder.createDefault("NzQwNjkyMjg4MTkxMjAxMzIy.Xystcg.I1MWCtYOJgbiECHOQimfMDNmuMc").build(); // <-- Put your bot token here
+        //JDA jda = JDABuilder.createDefault("[YOUR BOT TOKEN HERE]").build(); // <-- Put your bot token here
         jda.getPresence().setStatus(OnlineStatus.IDLE);
         jda.getPresence().setActivity(Activity.watching("Liar's Poker!"));
         jda.addEventListener(new Bot());
