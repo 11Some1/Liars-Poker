@@ -15,7 +15,7 @@ public class Bot extends ListenerAdapter {
     private static char prefix = '$'; // Default
 
     public static void main(String[] args) throws Exception {
-        //JDA jda = JDABuilder.createDefault("[YOUR BOT TOKEN HERE]").build(); // <-- Put your bot token here
+        JDA jda = JDABuilder.createDefault("").build(); // <-- Put your bot token here
         jda.getPresence().setStatus(OnlineStatus.IDLE);
         jda.getPresence().setActivity(Activity.watching("Liar's Poker!"));
         jda.addEventListener(new Bot());
@@ -31,10 +31,22 @@ public class Bot extends ListenerAdapter {
         if(msg[0].equals(prefix + "init")) {
             EmbedBuilder embd = new EmbedBuilder();
             embd.setFooter("Requested by " + event.getMember().getEffectiveName(), event.getMember().getUser().getAvatarUrl());
-            if(curGame.init(event.getAuthor())) {
+            Game.GameMode mode = Game.GameMode.HOLD_EM;
+            if(msg.length == 2) {
+               for(Game.GameMode gm : Game.GameMode.values()) {
+                   int num = msg[1].charAt(0) - 48;
+                   if(num == gm.ordinal()) {
+                       mode = gm;
+                       break;
+                   }
+               }
+            }
+
+            if(curGame.init(event.getAuthor(), mode)) {
                 embd.setTitle("New game initiated!");
                 embd.setDescription("A new game has been started by " + event.getMember().getEffectiveName() + "!"
                     + "\nMessage `" + prefix + "join` to join the game.");
+                embd.addField("Game mode selected:", mode.name(), false);
                 embd.setColor(0x99FF00);
             }
             else {
@@ -96,17 +108,27 @@ public class Bot extends ListenerAdapter {
                 embd.setColor(0xf45642);
             }
             else {
-                embd.setTitle("Started the game!");
-                embd.setDescription("The game has been started!");
-                embd.setColor(0x99FF00);
-                curGame.start();
-                disp = true;
+                try {
+                    embd.setTitle("Started the game!");
+                    embd.setDescription("The game has been started!");
+                    embd.setColor(0x99FF00);
+                    curGame.start();
+                    embd.addField("Game info:", "# starting cards/player: " + Player.getStartNumCards() +
+                            "\nYou lose if you get this many cards: " + Player.getEndNumCards(), false);
+                    disp = true;
+                }
+                catch(IllegalArgumentException e) {
+                    embd.setTitle("Failed to start game...");
+                    embd.setDescription("There are not at least " + Game.MIN_PLAYERS + " players that are a part of the game yet.");
+                    embd.setColor(0xf45642);
+                }
             }
             event.getChannel().sendMessage(embd.build()).queue();
             if(disp) {
                 embd = curGame.roundInfo();
                 embd.setTitle("New round!");
-                embd.addField("", "Run `" + prefix + "gethand` to see your cards for this round.", false);
+                embd.addField("", "Your cards for the round have been DM'd to you." +
+                        "\nIf you need to see them again, do `" + prefix + "gethand`.", false);
                 event.getChannel().sendMessage(embd.build()).queue();
             }
         }
@@ -150,16 +172,10 @@ public class Bot extends ListenerAdapter {
             }
             else {
                 User u = event.getMember().getUser();
-                if(true) { //TODO: if(u.hasPrivateChannel())
-                    u.openPrivateChannel().queue((channel) ->
-                    {
-                        channel.sendMessage("Your cards are:\n" + Card.getEmotes(curGame.getPlayer(u).getCards())).queue();
-                    });
-                    embd.setTitle("Cards sent!");
-                    embd.setDescription("Check your DMs to see your cards.");
-                    embd.setColor(0x99FF00);
+                try {
+                    curGame.pmCards(u);
                 }
-                else {
+                catch(IllegalStateException e) {
                     embd.setTitle("Failed to send cards...");
                     embd.setDescription("<@" + u.getId() + ">, your DMs are closed!\nPlease make sure your DMs are enabled.");
                     embd.setColor(0xf45642);
@@ -211,10 +227,33 @@ public class Bot extends ListenerAdapter {
                         embd.setColor(0xf45642);
                     }
                     else {
+                        List<Card> prevHand = new ArrayList<>(), addedCards = new ArrayList<>(), removedCards = new ArrayList<>();
+                        prevHand.addAll(Arrays.asList(curGame.getCurrentHand().getHand()));
                         curGame.takeTurn(h);
+                        addedCards.addAll(Arrays.asList(curGame.getCurrentHand().getHand()));
+
+                        for(int i = prevHand.size() - 1; i >= 0; i--) {
+                            boolean tp = false;
+                            for (int j = addedCards.size() - 1; j >= 0; j--) {
+                                if(addedCards.get(j).getRank() == prevHand.get(i).getRank()
+                                        && addedCards.get(j).getSuit() == prevHand.get(i).getSuit()) {
+                                    tp = true;
+                                    addedCards.remove(j);
+                                    break;
+                                }
+                            }
+                            if(!tp) {
+                                removedCards.add(prevHand.get(i));
+                            }
+                        }
+
                         embd.setTitle(event.getMember().getEffectiveName() + " has taken his/her turn!");
                         embd.setDescription("It is now <@" + curGame.currentPlayer().getUser().getId() + ">'s turn.");
                         embd.appendDescription("\nYou may either propose a better hand,\nor challenge the previous player.");
+                        embd.addField("Cards removed from the current hand:",
+                                Card.getEmotes(removedCards.toArray(new Card[removedCards.size()])), false);
+                        embd.addField("Cards added to the current hand:",
+                                Card.getEmotes(addedCards.toArray(new Card[addedCards.size()])), false);
                         embd.addField("Current hand to beat:", Card.getEmotes(curGame.getCurrentHand().getHand()), false);
                         embd.setColor(0x99FF00);
                     }
@@ -270,7 +309,8 @@ public class Bot extends ListenerAdapter {
             EmbedBuilder embd = new EmbedBuilder();
             embd.setFooter("Requested by " + event.getMember().getEffectiveName(), event.getMember().getUser().getAvatarUrl());
             embd.setTitle("List of commands:");
-            embd.addField("`" + prefix + "init`", "Initiates a new game, allowing players to join.", false);
+            embd.addField("`" + prefix + "init`", "Initiates a new default mode game, allowing players to join.", false);
+            embd.addField("`" + prefix + "init [int]`", "Initiates a new game of the indicated mode for players to join.", false);
             embd.addField("`" + prefix + "join`", "Lets you join a game that is about to begin, if able to.", false);
             embd.addField("`" + prefix + "start`", "Begins the game with the players who have joined." , false);
             embd.addField("`" + prefix + "roundinfo`", "Displays info on the current round.", false);
@@ -281,8 +321,8 @@ public class Bot extends ListenerAdapter {
                             "\nYou may propose a hand containing one to five cards, as long as the proposed hand is better than the current." +
                             "\nList your cards in two character strings, respectively, " +
                             "where the first character is the rank and the second character is the suit." +
-                            "\nFor example, \"Kc\" means the king of clubs, and \"A?\" means an ace without the suit specified." +
-                            "\nAn example of a valid hand request is:\n`" + prefix + "taketurn Kd 5s Tc Ah Qc`.", false);
+                            "\nEx:, \"Kc\" means the king of clubs, and \"A?\" means an ace without the suit specified." +
+                            "\nValid hand request ex:\n`" + prefix + "taketurn Kd 5s Tc Ah Qc`.", false);
             embd.addField("`" + prefix + "challenge`", "Challenge the previous player's claim, if it is your turn.", false);
             embd.addField("`" + prefix + "commands`", "Brings up the list of commands this bot offers.", false);
             embd.addField("`" + prefix + "gamehelp`", "Brings up an explanation of how to play Liar's Poker.", false);
@@ -296,14 +336,14 @@ public class Bot extends ListenerAdapter {
             embd.setFooter("Requested by " + event.getMember().getEffectiveName(), event.getMember().getUser().getAvatarUrl());
             embd.setTitle("Welcome to Liar's Poker!");
             embd.setDescription("It's Poker... but you're guessing hands among all players!");
-            embd.addField("Basic description:", "Each person starts the game with two cards each. There are also always " +
-                    "five cards in the middle.\nEach person takes turns guessing what they think is the highest poker hand among all " +
-                    "cards in play in the round.\nPlayers each make guesses, with each guess being better in Poker rank than the " +
-                    "previous, until a player decides to challenge the previous player's claim.\nIf the last hand " +
+            embd.addField("Basic description:", "Each person starts the game with " + Player.getStartNumCards() + " cards each." +
+                    "(There are also five cards in the middle in HOLD_EM mode).\nEach person takes turns guessing what they think is the highest " +
+                    "poker hand among all cards in play in the round.\nPlayers each make guesses, with each guess being better in Poker rank than " +
+                    "the previous, until a player decides to challenge the previous player's claim.\nIf the last hand " +
                     "guessed exists by combining all the cards in play in the round, the challenger (the current " +
                     "player) loses the round; if it doesn't exist, the previous player loses the round.\nWhen a " +
                     "player loses a round, they get another card for all future rounds they're in, which helps...\n...but if you " +
-                    "get to six cards, you're out.\nLast man standing wins!", false);
+                    "get to " + Player.getEndNumCards() + " cards, you're out.\nLast man standing wins!", false);
             embd.addField("Order of play:", "1) Players are dealt their respective number of cards (two to start) " +
                             "and five cards to the middle.\n2) The starting player and order of play is randomized. " +
                             "\n3) When it is their turn, the player either proposes a new hand better in Poker rank than the previous hand with" +
@@ -315,7 +355,7 @@ public class Bot extends ListenerAdapter {
                     "loses the round; If no, the previous player (the player who got challenged) loses the round. \n6) Whoever lost " +
                     "the round gets another card. If they get six cards, they are eliminated from the game.\n7) Another round starts " +
                     "with whoever is still alive. This order of play continues until a single winner is determined.", false);
-            embd.addField("Current limitations:", " -There are no wildcards.\n(Perhaps in the future, these will be features added.)",
+            embd.addField("Current limitations:", " -There are no wildcards.\n(Perhaps later, these will be features added.)",
                     false);
             embd.setColor(0x99FF00);
             event.getChannel().sendMessage(embd.build()).queue();

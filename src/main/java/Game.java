@@ -9,7 +9,12 @@ public class Game {
                           BEGIN_ROUND,      // Beginning a new round of the game
                           IN_PROGRESS }     // A round of the game is in progress
 
+    public enum GameMode{HOLD_EM,           // Community cards
+                         NORMAL       }     // No community cards
+    public static int MIN_PLAYERS = 2;  // TODO: 1 when testing
+
     private GameState state;
+    private GameMode mode;
     private ArrayList<Player> inRound;
     private int turnIdx;
     private Deck deck;
@@ -47,7 +52,9 @@ public class Game {
             sb.append("\n");
         }
         embd.addField("Players still alive in the round:", sb.toString(), false);
-        embd.addField("Cards in the middle:", Card.getEmotes(sharedCards.toArray(new Card[sharedCards.size()])), false);
+        if(!mode.equals(GameMode.NORMAL)) {
+            embd.addField("Cards in the middle:", Card.getEmotes(sharedCards.toArray(new Card[sharedCards.size()])), false);
+        }
         embd.addField("Current hand to beat:", Card.getEmotes(currentHand.getHand()), false);
         sb = new StringBuilder();
         for(int i = 1; i <= inRound.size(); i++) {
@@ -158,7 +165,7 @@ public class Game {
      * @param user The discord user who requested to initiate a new game.
      * @return true if game initiated successfully; false otherwise.
      */
-    public boolean init(User user) {
+    public boolean init(User user, GameMode mode) {
         if(state.equals(GameState.NO_GAME)) {
             inRound = new ArrayList<Player>();
             turnIdx = 0;
@@ -168,6 +175,7 @@ public class Game {
             sharedCards = new ArrayList<Card>();
             addPlayer(user);
             state = GameState.WAITING;
+            this.mode = mode;
             return true;
         }
         return false;
@@ -175,10 +183,26 @@ public class Game {
 
     /**
      * Begins a new game of Liar's Poker with the players who have joined.
+     * @throws IllegalArgumentException if there are not at least two players ready to play.
      */ // WIP
     public void start() {
         if(state.equals(GameState.WAITING)) {
             state = GameState.BEGIN_ROUND;
+            int numPlayers = inRound.size();
+            if(numPlayers < MIN_PLAYERS) {
+                throw new IllegalArgumentException("There must be at least two players to play.");
+            }
+            if(mode.equals(GameMode.HOLD_EM)) {
+                Player.setEndNumCards(15 / numPlayers);
+                Player.setStartNumCards((15 / numPlayers) - 2 > 0 ? (15 / numPlayers) - 2 : 1);
+            }
+            else if(mode.equals(GameMode.NORMAL)) {
+                Player.setEndNumCards(20 / numPlayers);
+                Player.setStartNumCards((20 / numPlayers) - 2 > 0 ? (20 / numPlayers) - 2 : 3);
+            }
+            for(Player p : inRound) {
+                p.setNumCards(Player.getStartNumCards());
+            }
             nextRound();
         }
     }
@@ -189,29 +213,65 @@ public class Game {
      */
     public void nextRound() {
         if(state.equals(GameState.BEGIN_ROUND)) {
-            deck = new Deck();
-            deck.shuffle();
-            poolCards = new ArrayList<Card>();
-            sharedCards = new ArrayList<Card>();
-            for(Player p : inRound) {
-                p.update();
-                for(int i = 0; i < p.getNumCards(); i++) {
+            if(mode.equals(GameMode.HOLD_EM)) {
+                deck = new Deck();
+                deck.shuffle();
+                poolCards = new ArrayList<Card>();
+                sharedCards = new ArrayList<Card>();
+                for(Player p : inRound) {
+                    p.update();
+                    for(int i = 0; i < p.getNumCards(); i++) {
+                        Card c = deck.draw();
+                        p.assignCard(c, i);
+                        poolCards.add(c);
+                    }
+                    try {
+                        pmCards(p.getUser());
+                    }
+                    catch(IllegalStateException e) {
+                        // TODO: fill in
+                    }
+                }
+                for(int i = 0; i < 5; i++) {
                     Card c = deck.draw();
-                    p.assignCard(c, i);
+                    sharedCards.add(c);
                     poolCards.add(c);
                 }
+                Collections.sort(poolCards, Collections.reverseOrder());
+                currentHand = new Hand(sharedCards.toArray(new Card[sharedCards.size()]));
+                turnIdx = (int) (Math.random() * inRound.size());
+                Collections.shuffle(inRound);
+                currentPlayer = inRound.get(turnIdx);
+                prevPlayer = inRound.get(Math.floorMod((turnIdx - 1), inRound.size()));
+                state = GameState.IN_PROGRESS;
             }
-            for(int i = 0; i < 5; i++) {
-                Card c = deck.draw();
-                sharedCards.add(c);
-                poolCards.add(c);
+            else if(mode.equals(GameMode.NORMAL)) {
+                deck = new Deck();
+                deck.shuffle();
+                poolCards = new ArrayList<Card>();
+                sharedCards = new ArrayList<Card>();
+                for(Player p : inRound) {
+                    p.update();
+                    for(int i = 0; i < p.getNumCards(); i++) {
+                        Card c = deck.draw();
+                        p.assignCard(c, i);
+                        poolCards.add(c);
+                    }
+                    try {
+                        pmCards(p.getUser());
+                    }
+                    catch(IllegalStateException e) {
+                        // TODO: fill in
+                    }
+                }
+                Collections.sort(poolCards, Collections.reverseOrder());
+                currentHand = new Hand("2?");
+                turnIdx = (int) (Math.random() * inRound.size());
+                Collections.shuffle(inRound);
+                currentPlayer = inRound.get(turnIdx);
+                prevPlayer = inRound.get(Math.floorMod((turnIdx - 1), inRound.size()));
+                state = GameState.IN_PROGRESS;
             }
-            currentHand = new Hand(sharedCards.toArray(new Card[sharedCards.size()]));
-            turnIdx = (int) (Math.random() * inRound.size());
-            Collections.shuffle(inRound);
-            currentPlayer = inRound.get(turnIdx);
-            prevPlayer = inRound.get(Math.floorMod((turnIdx - 1), inRound.size()));
-            state = GameState.IN_PROGRESS;
         }
     }
 
@@ -253,13 +313,14 @@ public class Game {
                             "and has been given an extra card.", false);
         }
         for(int i = inRound.size() - 1; i >= 0; i--) {
-            if(inRound.get(i).getNumCards() == 6) {
-                embd.addField("", "<@" + inRound.get(i).getUser().getId() + "> now has six cards and has been eliminated.",
+            if(inRound.get(i).getNumCards() == Player.getEndNumCards()) {
+                embd.addField("", "<@" + inRound.get(i).getUser().getId() +
+                                "> now has " + Player.getEndNumCards() + " cards and has been eliminated.",
                         false);
                 removePlayerRound(inRound.get(i));
             }
         }
-        if(inRound.size() == 0) { //TODO: is 0 when testing
+        if(inRound.size() == 1) { //TODO: is 0 when testing
             state = GameState.NO_GAME;
             embd.setTitle("Game over!");
             embd.addField("", "<@" + inRound.get(0).getUser().getId() + "> has won the game!", false);
@@ -289,6 +350,22 @@ public class Game {
             pool.remove(c);
         }
         return true;
+    }
+
+    /**
+     * Prints the given Discord user's cards in their DMs.
+     * @param u The Discord user to private message.
+     * @throws IllegalStateException if the Discord user does not have open DMs.
+     */
+    public void pmCards(User u) {
+        if(!u.hasPrivateChannel()) {
+            throw new IllegalStateException("This User does not have his/her DMs open!");
+        }
+        u.openPrivateChannel().queue((channel) ->
+        {
+            Arrays.sort(getPlayer(u).getCards(), Collections.reverseOrder());
+            channel.sendMessage("Your cards are:\n" + Card.getEmotes(getPlayer(u).getCards())).queue();
+        });
     }
 }
 

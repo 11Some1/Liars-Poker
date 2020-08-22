@@ -1,38 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1848e25d-a468-4cc9-a553-fc4542ab579a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/ImgAddress.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/PokerRank.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Rank.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Suit.java" afterDir="false" />
+    <list default="true" id="1848e25d-a468-4cc9-a553-fc4542ab579a" name="Default Changelist" comment="8/22/2020 4:52 PM:&#10;-Added different modes: HOLD_EM and NORMAL. HOLD_EM has community cards;&#10;NORMAL does not.&#10;-Added adaptable starting/ending number of cards, depending on how many &#10;players start in the game. This is to avoid the embed character limit.&#10;-The added/removed cards to the hand at play each round are now tracked and shown.&#10;-Can now send &quot;10?&quot; &quot;10s&quot; &quot;10d&quot; &quot;10h&quot; &quot;10c&quot; as valid hand requests. (Avoiding 'T'.)&#10;-Added @throws JavaDoc tags to many methods.">
+      <change beforePath="$PROJECT_DIR$/.gradle/4.10.3/fileContent/fileContent.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.3/fileContent/fileContent.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.3/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.3/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.3/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.3/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.3/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.3/javaCompile/classAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.3/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.3/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.10.3/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.3/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.3/taskHistory/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.3/taskHistory/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.3/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.3/taskHistory/taskHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/Bot.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Bot.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/Card.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Card.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Deck.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Deck.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Game.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/Hand.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Hand.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Tables$Flushes.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Tables$Hash$Adjust.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Tables$Hash$Values.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Tables$Hash.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Tables$Unique.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Tables.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Player.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Bot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Bot.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Card.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Deck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Deck.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Hand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Hand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Tables.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Player.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -58,8 +46,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Bot.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="104">
-              <caret line="285" column="62" selection-start-line="285" selection-start-column="62" selection-end-line="285" selection-end-column="62" />
+            <state relative-caret-position="-5044">
+              <caret line="189" column="40" selection-start-line="189" selection-start-column="40" selection-end-line="189" selection-end-column="40" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -70,8 +58,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3808">
-              <caret line="282" column="59" selection-start-line="282" selection-start-column="59" selection-end-line="282" selection-end-column="59" />
+            <state relative-caret-position="-321">
+              <caret line="319" column="50" lean-forward="true" selection-start-line="319" selection-start-column="50" selection-end-line="319" selection-end-column="50" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="docComment;method#Game#0;class#Game#0" />
@@ -83,13 +71,14 @@
                 <element signature="docComment;method#getPlayer#0;class#Game#0" />
                 <element signature="docComment;method#removePlayerRound#0;class#Game#0" />
                 <element signature="docComment;method#currentPlayer#0;class#Game#0" />
+                <element signature="e#5040#5041#0" expanded="true" />
                 <element signature="docComment;method#getCurrentHand#0;class#Game#0" />
                 <element signature="docComment;method#init#0;class#Game#0" />
                 <element signature="docComment;method#start#0;class#Game#0" />
                 <element signature="docComment;method#nextRound#0;class#Game#0" />
                 <element signature="docComment;method#takeTurn#0;class#Game#0" />
-                <element signature="docComment;method#endRound#0;class#Game#0" />
                 <element signature="docComment;method#gameContains#0;class#Game#0" />
+                <element signature="docComment;method#pmCards#0;class#Game#0" />
               </folding>
             </state>
           </provider>
@@ -98,11 +87,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Card.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2446">
-              <caret line="20" column="56" lean-forward="true" selection-start-line="20" selection-start-column="56" selection-end-line="20" selection-end-column="56" />
+            <state relative-caret-position="255">
+              <caret line="17" column="32" lean-forward="true" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
               <folding>
                 <element signature="docComment;class#Card#0" />
-                <element signature="docComment;method#Card#0;class#Card#0" />
                 <element signature="docComment;method#Card#1;class#Card#0" />
                 <element signature="docComment;method#isValidRank#0;class#Card#0" />
                 <element signature="docComment;method#isValidSuit#0;class#Card#0" />
@@ -123,8 +111,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Hand.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1343">
-              <caret line="123" column="32" selection-start-line="123" selection-start-column="32" selection-end-line="123" selection-end-column="32" />
+            <state relative-caret-position="138">
+              <caret line="304" column="24" lean-forward="true" selection-start-line="304" selection-start-column="24" selection-end-line="304" selection-end-column="24" />
               <folding>
                 <element signature="docComment;method#Hand#0;class#Hand#0" />
                 <element signature="docComment;method#Hand#1;class#Hand#0" />
@@ -164,7 +152,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Rank.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
+            <state relative-caret-position="-119">
               <caret line="2" column="3" selection-start-line="2" selection-start-column="3" selection-end-line="2" selection-end-column="3" />
               <folding>
                 <element signature="docComment;class#Rank#0" />
@@ -178,8 +166,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Suit.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
+            <state>
+              <caret line="2" column="3" selection-start-line="2" selection-start-column="3" selection-end-line="2" selection-end-column="3" />
               <folding>
                 <element signature="docComment;class#Suit#0" />
                 <element signature="docComment;method#Suit#0;class#Suit#0" />
@@ -203,10 +191,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ImgAddress.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-204">
+            <state relative-caret-position="-391">
+              <caret line="6" column="35" selection-start-line="6" selection-start-column="35" selection-end-line="6" selection-end-column="35" />
               <folding>
                 <element signature="docComment;class#ImgAddress#0" />
                 <element signature="e#1263#1371#0" />
@@ -216,11 +205,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="52" column="15" selection-start-line="52" selection-start-column="15" selection-end-line="52" selection-end-column="15" />
+            <state relative-caret-position="850">
+              <caret line="91" column="17" lean-forward="true" selection-start-line="91" selection-start-column="17" selection-end-line="91" selection-end-column="17" />
               <folding>
                 <element signature="docComment;method#Player#0;class#Player#0" />
                 <element signature="docComment;method#getUser#0;class#Player#0" />
@@ -230,6 +219,17 @@
                 <element signature="docComment;method#equals#0;class#Player#0" />
                 <element signature="docComment;method#incNumCards#0;class#Player#0" />
                 <element signature="docComment;method#update#0;class#Player#0" />
+                <element signature="docComment;method#setNumCards#0;class#Player#0" />
+                <element signature="e#1997#1998#0" expanded="true" />
+                <element signature="e#2032#2033#0" expanded="true" />
+                <element signature="docComment;method#setStartNumCards#0;class#Player#0" />
+                <element signature="e#1989#1990#0" expanded="true" />
+                <element signature="e#2024#2025#0" expanded="true" />
+                <element signature="docComment;method#setEndNumCards#0;class#Player#0" />
+                <element signature="e#2222#2223#0" expanded="true" />
+                <element signature="e#2255#2256#0" expanded="true" />
+                <element signature="docComment;method#getStartNumCards#0;class#Player#0" />
+                <element signature="docComment;method#getEndNumCards#0;class#Player#0" />
               </folding>
             </state>
           </provider>
@@ -247,11 +247,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>turnIdx</find>
-      <find>split</find>
-      <find>@</find>
-      <find>myhand</find>
-      <find>Run</find>
       <find>A</find>
       <find>An example</find>
       <find>Poker</find>
@@ -263,12 +258,25 @@
       <find>5 car</find>
       <find>invalid</find>
       <find>your reques</find>
-      <find>sort</find>
       <find>toArray</find>
       <find>getcurre</find>
       <find>taketurn</find>
       <find>your request for a hand</find>
       <find>is not better</find>
+      <find>get(</find>
+      <find>getEmotes</find>
+      <find>.length</find>
+      <find>Failed to take</find>
+      <find>throw</find>
+      <find>pmCards</find>
+      <find>getEnd</find>
+      <find>Card.getEmotes</find>
+      <find>sort</find>
+      <find>End of the round</find>
+      <find>Game mode sel</find>
+      <find>mode.name</find>
+      <find>You lose i</find>
+      <find>hasPriv</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -280,17 +288,17 @@
       <list>
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/src/main/java/Tables.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Player.java" />
         <option value="$PROJECT_DIR$/src/main/java/ImgAddress.java" />
         <option value="$PROJECT_DIR$/src/main/java/PokerRank.java" />
         <option value="$PROJECT_DIR$/src/main/java/Rank.java" />
         <option value="$PROJECT_DIR$/src/main/java/Suit.java" />
         <option value="$PROJECT_DIR$/src/main/java/Deck.java" />
         <option value="$PROJECT_DIR$/src/main/java/Poker.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Card.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Game.java" />
         <option value="$PROJECT_DIR$/src/main/java/Hand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Card.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Player.java" />
         <option value="$PROJECT_DIR$/src/main/java/Bot.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Game.java" />
       </list>
     </option>
   </component>
@@ -305,8 +313,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -387,7 +395,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597037194827</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="8/11/2020 10:10 PM: One minor fix.">
+      <created>1597198286015</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1597198286015</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TodoView">
@@ -402,16 +417,17 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1429652" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.120272316" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="Capture Tool" order="4" />
       <window_info id="UI Designer" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info active="true" anchor="bottom" id="Messages" visible="true" weight="0.3289689" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3289689" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.31914893" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.22585924" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3715221" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -464,7 +480,23 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="8/10/2020 1:25 AM: Brief adjustements. Mostly aligning some expository &#10;stuff with README.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="8/10/2020 1:25 AM: Brief adjustements. Mostly aligning some expository &#10;stuff with README.md" />
+    <MESSAGE value="8/11/2020 10:10 PM: One minor fix." />
+    <MESSAGE value="8/22/2020 4:52 PM:&#10;-Added different modes: HOLD_EM and NORMAL. HOLD_EM has community cards;&#10;NORMAL does not.&#10;-Added adaptable starting/ending number of cards, depending on how many &#10;players start in the game. This is to avoid the embed character limit.&#10;-The added/removed cards to the hand at play each round are now tracked and shown.&#10;-Can now send &quot;10?&quot; &quot;10s&quot; &quot;10d&quot; &quot;10h&quot; &quot;10c&quot; as valid hand requests. (Avoiding 'T'.)&#10;-Added @throws JavaDoc tags to many methods." />
+    <option name="LAST_COMMIT_MESSAGE" value="8/22/2020 4:52 PM:&#10;-Added different modes: HOLD_EM and NORMAL. HOLD_EM has community cards;&#10;NORMAL does not.&#10;-Added adaptable starting/ending number of cards, depending on how many &#10;players start in the game. This is to avoid the embed character limit.&#10;-The added/removed cards to the hand at play each round are now tracked and shown.&#10;-Can now send &quot;10?&quot; &quot;10s&quot; &quot;10d&quot; &quot;10h&quot; &quot;10c&quot; as valid hand requests. (Avoiding 'T'.)&#10;-Added @throws JavaDoc tags to many methods." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/Player.java</url>
+          <line>35</line>
+          <properties class="Player" method="getCards">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/build.gradle">
@@ -508,49 +540,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Tables.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/Poker.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/Game.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3808">
-          <caret line="282" column="59" selection-start-line="282" selection-start-column="59" selection-end-line="282" selection-end-column="59" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="docComment;method#Game#0;class#Game#0" />
-            <element signature="docComment;method#roundInfo#0;class#Game#0" />
-            <element signature="docComment;method#getState#0;class#Game#0" />
-            <element signature="docComment;method#setState#0;class#Game#0" />
-            <element signature="docComment;method#addPlayer#0;class#Game#0" />
-            <element signature="docComment;method#isPlayer#0;class#Game#0" />
-            <element signature="docComment;method#getPlayer#0;class#Game#0" />
-            <element signature="docComment;method#removePlayerRound#0;class#Game#0" />
-            <element signature="docComment;method#currentPlayer#0;class#Game#0" />
-            <element signature="docComment;method#getCurrentHand#0;class#Game#0" />
-            <element signature="docComment;method#init#0;class#Game#0" />
-            <element signature="docComment;method#start#0;class#Game#0" />
-            <element signature="docComment;method#nextRound#0;class#Game#0" />
-            <element signature="docComment;method#takeTurn#0;class#Game#0" />
-            <element signature="docComment;method#endRound#0;class#Game#0" />
-            <element signature="docComment;method#gameContains#0;class#Game#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Player.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="52" column="15" selection-start-line="52" selection-start-column="15" selection-end-line="52" selection-end-column="15" />
-          <folding>
-            <element signature="docComment;method#Player#0;class#Player#0" />
-            <element signature="docComment;method#getUser#0;class#Player#0" />
-            <element signature="docComment;method#getNumCards#0;class#Player#0" />
-            <element signature="docComment;method#getCards#0;class#Player#0" />
-            <element signature="docComment;method#assignCard#0;class#Player#0" />
-            <element signature="docComment;method#equals#0;class#Player#0" />
-            <element signature="docComment;method#incNumCards#0;class#Player#0" />
-            <element signature="docComment;method#update#0;class#Player#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/PokerRank.java">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -563,21 +552,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Suit.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
-          <folding>
-            <element signature="docComment;class#Suit#0" />
-            <element signature="docComment;method#Suit#0;class#Suit#0" />
-            <element signature="docComment;method#getSuit#0;class#Suit#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Rank.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
+        <state relative-caret-position="-119">
           <caret line="2" column="3" selection-start-line="2" selection-start-column="3" selection-end-line="2" selection-end-column="3" />
           <folding>
             <element signature="docComment;class#Rank#0" />
@@ -587,24 +564,93 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Deck.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/Suit.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="8" column="18" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
+        <state>
+          <caret line="2" column="3" selection-start-line="2" selection-start-column="3" selection-end-line="2" selection-end-column="3" />
           <folding>
-            <element signature="docComment;method#Deck#0;class#Deck#0" />
-            <element signature="method#Deck#0;class#Deck#0" />
-            <element signature="docComment;method#shuffle#0;class#Deck#0" />
-            <element signature="docComment;method#draw#0;class#Deck#0" />
-            <element signature="docComment;method#getDeck#0;class#Deck#0" />
+            <element signature="docComment;class#Suit#0" />
+            <element signature="docComment;method#Suit#0;class#Suit#0" />
+            <element signature="docComment;method#getSuit#0;class#Suit#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ImgAddress.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-391">
+          <caret line="6" column="35" selection-start-line="6" selection-start-column="35" selection-end-line="6" selection-end-column="35" />
+          <folding>
+            <element signature="docComment;class#ImgAddress#0" />
+            <element signature="e#1263#1371#0" />
+            <element signature="e#1448#1594#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Bot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-5044">
+          <caret line="189" column="40" selection-start-line="189" selection-start-column="40" selection-end-line="189" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Game.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-321">
+          <caret line="319" column="50" lean-forward="true" selection-start-line="319" selection-start-column="50" selection-end-line="319" selection-end-column="50" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="docComment;method#Game#0;class#Game#0" />
+            <element signature="docComment;method#roundInfo#0;class#Game#0" />
+            <element signature="docComment;method#getState#0;class#Game#0" />
+            <element signature="docComment;method#setState#0;class#Game#0" />
+            <element signature="docComment;method#addPlayer#0;class#Game#0" />
+            <element signature="docComment;method#isPlayer#0;class#Game#0" />
+            <element signature="docComment;method#getPlayer#0;class#Game#0" />
+            <element signature="docComment;method#removePlayerRound#0;class#Game#0" />
+            <element signature="docComment;method#currentPlayer#0;class#Game#0" />
+            <element signature="e#5040#5041#0" expanded="true" />
+            <element signature="docComment;method#getCurrentHand#0;class#Game#0" />
+            <element signature="docComment;method#init#0;class#Game#0" />
+            <element signature="docComment;method#start#0;class#Game#0" />
+            <element signature="docComment;method#nextRound#0;class#Game#0" />
+            <element signature="docComment;method#takeTurn#0;class#Game#0" />
+            <element signature="docComment;method#gameContains#0;class#Game#0" />
+            <element signature="docComment;method#pmCards#0;class#Game#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Card.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="32" lean-forward="true" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
+          <folding>
+            <element signature="docComment;class#Card#0" />
+            <element signature="docComment;method#Card#1;class#Card#0" />
+            <element signature="docComment;method#isValidRank#0;class#Card#0" />
+            <element signature="docComment;method#isValidSuit#0;class#Card#0" />
+            <element signature="docComment;method#getRank#0;class#Card#0" />
+            <element signature="docComment;method#getSuit#0;class#Card#0" />
+            <element signature="docComment;method#equals#0;class#Card#0" />
+            <element signature="docComment;method#suitEquals#0;class#Card#0" />
+            <element signature="docComment;method#toString#0;class#Card#0" />
+            <element signature="docComment;method#compareTo#0;class#Card#0" />
+            <element signature="docComment;method#rankImg#0;class#Card#0" />
+            <element signature="docComment;method#suitImg#0;class#Card#0" />
+            <element signature="docComment;method#getEmotes#0;class#Card#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Hand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1343">
-          <caret line="123" column="32" selection-start-line="123" selection-start-column="32" selection-end-line="123" selection-end-column="32" />
+        <state relative-caret-position="138">
+          <caret line="304" column="24" lean-forward="true" selection-start-line="304" selection-start-column="24" selection-end-line="304" selection-end-column="24" />
           <folding>
             <element signature="docComment;method#Hand#0;class#Hand#0" />
             <element signature="docComment;method#Hand#1;class#Hand#0" />
@@ -624,46 +670,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Bot.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/Deck.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="285" column="62" selection-start-line="285" selection-start-column="62" selection-end-line="285" selection-end-column="62" />
+        <state relative-caret-position="102">
+          <caret line="8" column="18" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="docComment;method#Deck#0;class#Deck#0" />
+            <element signature="method#Deck#0;class#Deck#0" />
+            <element signature="docComment;method#shuffle#0;class#Deck#0" />
+            <element signature="docComment;method#draw#0;class#Deck#0" />
+            <element signature="docComment;method#getDeck#0;class#Deck#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Card.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2446">
-          <caret line="20" column="56" lean-forward="true" selection-start-line="20" selection-start-column="56" selection-end-line="20" selection-end-column="56" />
+        <state relative-caret-position="850">
+          <caret line="91" column="17" lean-forward="true" selection-start-line="91" selection-start-column="17" selection-end-line="91" selection-end-column="17" />
           <folding>
-            <element signature="docComment;class#Card#0" />
-            <element signature="docComment;method#Card#0;class#Card#0" />
-            <element signature="docComment;method#Card#1;class#Card#0" />
-            <element signature="docComment;method#isValidRank#0;class#Card#0" />
-            <element signature="docComment;method#isValidSuit#0;class#Card#0" />
-            <element signature="docComment;method#getRank#0;class#Card#0" />
-            <element signature="docComment;method#getSuit#0;class#Card#0" />
-            <element signature="docComment;method#equals#0;class#Card#0" />
-            <element signature="docComment;method#suitEquals#0;class#Card#0" />
-            <element signature="docComment;method#toString#0;class#Card#0" />
-            <element signature="docComment;method#compareTo#0;class#Card#0" />
-            <element signature="docComment;method#rankImg#0;class#Card#0" />
-            <element signature="docComment;method#suitImg#0;class#Card#0" />
-            <element signature="docComment;method#getEmotes#0;class#Card#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ImgAddress.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-204">
-          <folding>
-            <element signature="docComment;class#ImgAddress#0" />
-            <element signature="e#1263#1371#0" />
-            <element signature="e#1448#1594#0" />
+            <element signature="docComment;method#Player#0;class#Player#0" />
+            <element signature="docComment;method#getUser#0;class#Player#0" />
+            <element signature="docComment;method#getNumCards#0;class#Player#0" />
+            <element signature="docComment;method#getCards#0;class#Player#0" />
+            <element signature="docComment;method#assignCard#0;class#Player#0" />
+            <element signature="docComment;method#equals#0;class#Player#0" />
+            <element signature="docComment;method#incNumCards#0;class#Player#0" />
+            <element signature="docComment;method#update#0;class#Player#0" />
+            <element signature="docComment;method#setNumCards#0;class#Player#0" />
+            <element signature="e#1997#1998#0" expanded="true" />
+            <element signature="e#2032#2033#0" expanded="true" />
+            <element signature="docComment;method#setStartNumCards#0;class#Player#0" />
+            <element signature="e#1989#1990#0" expanded="true" />
+            <element signature="e#2024#2025#0" expanded="true" />
+            <element signature="docComment;method#setEndNumCards#0;class#Player#0" />
+            <element signature="e#2222#2223#0" expanded="true" />
+            <element signature="e#2255#2256#0" expanded="true" />
+            <element signature="docComment;method#getStartNumCards#0;class#Player#0" />
+            <element signature="docComment;method#getEndNumCards#0;class#Player#0" />
           </folding>
         </state>
       </provider>

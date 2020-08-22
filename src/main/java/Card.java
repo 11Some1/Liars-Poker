@@ -1,4 +1,3 @@
-import java.util.*;
 
 /**
  * An immutable class representing a card from a normal 52-card deck.
@@ -10,16 +9,26 @@ public class Card implements Comparable<Card> {
 
     /**
      * Card constructor.
-     * @param string A string of length 2, with the first character being the rank and the second character being the suit.
+     * @param string A string, usually of length 2, with the first character being the rank and the second character being the suit.
+     * (Special case of "10?" "10s" "10d" "10h" "10c" accepted as well.)
      * @see Rank#RANKS
      * @see Suit#SUITS
+     * @throws IllegalArgumentException if string is invalid.
      */
     public Card(String string) {
         if (string == null || string.length() != 2) {
-            throw new IllegalArgumentException("Card string must be non-null with length of exactly 2.");
+            if(string.length() == 3 && string.charAt(0) == '1' && string.charAt(1) == '0') { // If the user enters "10" instead of "T"
+                rank = 10;
+                suit = Suit.SUITS.indexOf(string.charAt(2));
+            }
+            else {
+                throw new IllegalArgumentException("Card string should be non-null with length of exactly 2.");
+            }
         }
-        rank = Rank.RANKS.indexOf(string.charAt(0)) + 2;
-        suit = Suit.SUITS.indexOf(string.charAt(1));
+        else {
+            rank = Rank.RANKS.indexOf(string.charAt(0)) + 2;
+            suit = Suit.SUITS.indexOf(string.charAt(1));
+        }
         if(!isValidRank(rank)) {
             throw new IllegalArgumentException("Invalid rank.");
         }

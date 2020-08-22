@@ -2,6 +2,8 @@ import net.dv8tion.jda.api.entities.User;
 
 public class Player {
     private User user;
+    private static int startNumCards = 1; // TODO: Can edit
+    private static int endNumCards = 4; // TODO: Can edit
     private int numCards;
     private Card[] cards;
 
@@ -11,7 +13,7 @@ public class Player {
      */
     Player(User user) {
         this.user = user;
-        this.numCards = 2;
+        this.numCards = startNumCards;
         cards = new Card[numCards];
     }
 
@@ -64,5 +66,45 @@ public class Player {
      */
     public void update() {
         cards = new Card[numCards];
+    }
+
+    /**
+     * Sets a new number of cards for each player.
+     * @param num The number of cards for each player.
+     */
+    public void setNumCards(int num) {
+        this.numCards = num;
+    }
+
+    /**
+     * Sets a new starting number of cards for each player.
+     * @param num The new starting number of cards for each player.
+     */
+    public static void setStartNumCards(int num) {
+        startNumCards = num;
+    }
+
+    /**
+     * Sets a new ending number of cards for each player.
+     * @param num The new ending number of cards for each player.
+     */
+    public static void setEndNumCards(int num) {
+        endNumCards = num;
+    }
+
+    /**
+     * Gets the starting number of cards for each player.
+     * @return The starting number of cards for each player.
+     */
+    public static int getStartNumCards() {
+        return startNumCards;
+    }
+
+    /**
+     * Gets the ending number of cards for each player.
+     * @return The ending number of cards for each player.
+     */
+    public static int getEndNumCards() {
+        return endNumCards;
     }
 }

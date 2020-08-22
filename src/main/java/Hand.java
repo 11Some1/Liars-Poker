@@ -10,6 +10,7 @@ public class Hand implements Comparable<Hand>{
      * A newly created Hand is automatically sorted to proper Poker format.
      * @param string the string to create the hand from, such as "Kd 5s Jc Ah Qc"
      * @see Card
+     * @throws IllegalArgumentException if there is a request for a more than 5 card hand.
      */
     Hand(String string) {
         final String[] parts = string.split(" ");
@@ -28,6 +29,7 @@ public class Hand implements Comparable<Hand>{
      * A newly created Hand is automatically sorted to proper Poker format.
      * @param arr The array of Cards to convert to a Hand.
      * @see Card
+     * @throws IllegalArgumentException if there is a request for a more than 5 card hand.
      */
     Hand(Card[] arr) {
         if(arr.length > 5) throw new IllegalArgumentException("There cannot be more than 5 cards in a hand.");
