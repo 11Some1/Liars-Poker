@@ -15,7 +15,8 @@ public class Bot extends ListenerAdapter {
     private static char prefix = '$'; // Default
 
     public static void main(String[] args) throws Exception {
-        JDA jda = JDABuilder.createDefault("").build(); // <-- Put your bot token here
+        String token = ""; // <-- Put your bot token here
+        JDA jda = JDABuilder.createDefault(token).build();
         jda.getPresence().setStatus(OnlineStatus.IDLE);
         jda.getPresence().setActivity(Activity.watching("Liar's Poker!"));
         jda.addEventListener(new Bot());
@@ -310,7 +311,8 @@ public class Bot extends ListenerAdapter {
             embd.setFooter("Requested by " + event.getMember().getEffectiveName(), event.getMember().getUser().getAvatarUrl());
             embd.setTitle("List of commands:");
             embd.addField("`" + prefix + "init`", "Initiates a new default mode game, allowing players to join.", false);
-            embd.addField("`" + prefix + "init [int]`", "Initiates a new game of the indicated mode for players to join.", false);
+            embd.addField("`" + prefix + "init [int]`", "Initiates a new game of the indicated mode for players to join." +
+                    "\n0 = HOLD_EM (Community cards)\n1 = NORMAL (No community cards)", false);
             embd.addField("`" + prefix + "join`", "Lets you join a game that is about to begin, if able to.", false);
             embd.addField("`" + prefix + "start`", "Begins the game with the players who have joined." , false);
             embd.addField("`" + prefix + "roundinfo`", "Displays info on the current round.", false);
@@ -344,8 +346,8 @@ public class Bot extends ListenerAdapter {
                     "player) loses the round; if it doesn't exist, the previous player loses the round.\nWhen a " +
                     "player loses a round, they get another card for all future rounds they're in, which helps...\n...but if you " +
                     "get to " + Player.getEndNumCards() + " cards, you're out.\nLast man standing wins!", false);
-            embd.addField("Order of play:", "1) Players are dealt their respective number of cards (two to start) " +
-                            "and five cards to the middle.\n2) The starting player and order of play is randomized. " +
+            embd.addField("Order of play:", "1) Players are dealt their respective number of cards (" + Player.getStartNumCards() +
+                            ") and five cards to the middle in HOLD_EM mode.\n2) The starting player and order of play is randomized. " +
                             "\n3) When it is their turn, the player either proposes a new hand better in Poker rank than the previous hand with" +
                     "\n`" + prefix + "taketurn [card 1] [card 2] ... [card 5]`" + "\nor `" + prefix + "challenge`s" +
                     " the previous player's claim. (See `" + prefix + "rankinghelp` for information about Poker hand rankings.)" +
@@ -353,9 +355,10 @@ public class Bot extends ListenerAdapter {
                     "\n5) When a player challenges, all the cards in play (among all players and the cards in the middle) " +
                     "are used to see if the last guess can be made from them. If yes, the current player (the player who challenged) " +
                     "loses the round; If no, the previous player (the player who got challenged) loses the round. \n6) Whoever lost " +
-                    "the round gets another card. If they get six cards, they are eliminated from the game.\n7) Another round starts " +
-                    "with whoever is still alive. This order of play continues until a single winner is determined.", false);
-            embd.addField("Current limitations:", " -There are no wildcards.\n(Perhaps later, these will be features added.)",
+                    "the round gets another card. If they get " + Player.getEndNumCards() + " cards, they are eliminated from the game." +
+                    "\n7) Another round starts with whoever is still alive. This order of play continues until a single winner is determined.",
+                    false);
+            embd.addField("Current limitations:", " -No wildcards.\n(Perhaps later, these will be added.)",
                     false);
             embd.setColor(0x99FF00);
             event.getChannel().sendMessage(embd.build()).queue();
