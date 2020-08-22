@@ -10,15 +10,16 @@ A functional implementation of the card game "Liar's Poker" using a Discord bot 
 # What is Liar's Poker?
 It's Poker... but you're guessing hands among all players!
 
-- Each player starts the game with two cards each. There are also always five cards in the middle. 
+- Each player starts the game with a certain number of cards, determined by how many players there are at the start of the game. (There are also five cards in the middle in HOLD_EM mode.)
+  - There should be no more than 20 cards in play at any single time.
 - Each person takes turns guessing what they think is the highest poker hand among all cards in play in the round. 
 - Players each make guesses, with each guess being better in Poker rank than the previous, until a player decides to challenge the previous player's claim. 
 - If the last hand guessed exists by combining all the cards in play in the round, the challenger (the current player) loses the round; if it doesn't exist, the previous player loses the round. 
-- When a player loses a round, they get another card for all future rounds they're in, which helps... but if you get to six cards, you're out. 
+- When a player loses a round, they get another card for all future rounds they're in, which helps... but if you get too many cards (again determined by how many players there are at the start of the game), you're out. 
 - Last man standing wins!
 
 Order of play:
-1) Players are dealt their respective number of cards (two to start) and five cards to the middle.
+1) Players are dealt their respective number of cards (varies) and five cards to the middle in HOLD_EM mode.
    - The players see their cards by doing ```$gethand``` (by default), where the bot PMs their cards if the player's DMs are open.
 2) The starting player and order of play is randomized.
 3) When it is their turn, the player can do either of the following:
@@ -37,7 +38,10 @@ Order of play:
 For the commands listed below, note that ```$``` is the default prefix. It can be changed to a different character using one of the commands.
 
 Commands avaiable to everyone:
-- ```$init```: Initiates a new game, allowing players to join.
+- ```$init```: Initiates a new default mode game, allowing players to join.
+- ```$init [int]```: Initiates a new game of the indicated mode for players to join.
+  - 0 = HOLD_EM (Community cards)
+  - 1 = NORMAL (No community cards)
 - ```$join```: Lets you join a game that is about to begin, if able to.
 - ```$start```: Begins the game with the players who have joined.
 - ```$roundinfo```: Displays info on the current round.
